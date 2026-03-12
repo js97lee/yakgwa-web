@@ -97,7 +97,7 @@ function App() {
       <div className="interaction-block" ref={interactionBlockRef}>
         <div className="interaction-sticky">
           <img
-            src="/img/yakgwa.png"
+            src="img/yakgwa.png"
             alt="한국 전통 과자 약과"
             className="interaction-img"
             style={{

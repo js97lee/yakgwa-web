@@ -8,8 +8,9 @@ const SECTIONS_DATA = [
     id: 'hero',
     type: 'hero',
     color: 'transparent',
-    hook1: '약과는 좋아하지만 당과 칼로리는 부담스러우셨나요?',
-    hook2: '이제 죄책감 없이, 단백질 저당 미니약과를 만나보세요.',
+    subline: '달콤함은 그대로, 부담은 줄였다',
+    headline: '아이돌도 선택한',
+    product: '단백질 저당미니약과',
     cta: '사전 예약하기',
   },
   {
@@ -31,7 +32,18 @@ const SECTIONS_DATA = [
     items: [
       '식단 관리 중 달콤한 디저트가 먹고 싶을때',
       '혈당관리가 필요한 부모님께 선물이 필요할때',
-      '색다른 K-디저트를 경험해보고 싶을 때',
+      '색다른 K-Dessert를 경험해보고 싶을 때',
+    ],
+  },
+  {
+    id: 'yellow',
+    type: 'gallery',
+    color: '#FFD93D',
+    images: [
+      { src: 'img/gallery-1.png', alt: '약과를 먹는 모델' },
+      { src: 'img/gallery-2.png', alt: '약과를 먹는 모델' },
+      { src: 'img/gallery-3.png', alt: '약과를 먹는 모델' },
+      { src: 'img/gallery-4.png', alt: '약과를 먹는 모델' },
     ],
   },
   {
@@ -176,11 +188,19 @@ function App() {
       case 'hero':
         return (
           <div className="content-section hero-section">
-            <p className="hero-accent-text">The Best</p>
-            <p className="hero-hook1">{s.hook1}</p>
-            <p className="hero-hook2">{s.hook2}</p>
+            <h4 className="hero-subline">{s.subline}</h4>
+            <h1 className="hero-headline">
+              {s.headline}
+              <br />
+              {s.product}
+            </h1>
             <a href="#inquire" className="cta-btn">{s.cta}</a>
-            <div className="hero-yakgwa-wrap">
+          </div>
+        )
+      case 'intro':
+        return (
+          <div className="content-section intro-section">
+            <div className="intro-yakgwa-wrap">
               <img
                 src="img/yakgwa.png"
                 alt="단백질 저당 미니약과"
@@ -190,11 +210,6 @@ function App() {
                 }}
               />
             </div>
-          </div>
-        )
-      case 'intro':
-        return (
-          <div className="content-section intro-section">
             <h2 className="section-headline">{s.headline}</h2>
             <ul className="value-list">
               {s.values.map((v, i) => <li key={i}>{v}</li>)}
@@ -275,6 +290,18 @@ function App() {
             <p className="closing-desc">{s.desc}</p>
           </div>
         )
+      case 'gallery':
+        return (
+          <div className="content-section gallery-section">
+            <div className="gallery-grid">
+              {s.images.map((img, i) => (
+                <div key={i} className="gallery-col">
+                  <img src={img.src} alt={img.alt} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )
       default:
         return null
     }
@@ -283,13 +310,15 @@ function App() {
   return (
     <div className="yakgwa-page">
       <nav className="top-nav">
-        <a href="#" className="nav-logo">달빛약과</a>
+        <div className="nav-inner">
+        <a href="#" className="nav-logo">종로약과</a>
         <div className="nav-right">
           <a href="#inquire" className="nav-inquire">문의하기</a>
           <div className="nav-lang">
             <button className={`lang-btn ${lang === 'KR' ? 'active' : ''}`} onClick={() => setLang('KR')}>KR</button>
             <button className={`lang-btn ${lang === 'EN' ? 'active' : ''}`} onClick={() => setLang('EN')}>EN</button>
           </div>
+        </div>
         </div>
       </nav>
 
@@ -364,12 +393,20 @@ function App() {
         </footer>
         </div>
 
-        {/* 섹션1-2: 블랙 배경 + 장식 텍스트 (맨 아래 레이어) */}
-        <div className="interaction-block" ref={interactionBlockRef}>
+        {/* 섹션1: 비디오 BG + 블랙딤 40% + 장식 텍스트 */}
+        <div className="hero-video-section" ref={interactionBlockRef}>
+          <video
+            className="hero-bg-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src="video/bg-motion.mp4" type="video/mp4" />
+          </video>
+          <div className="hero-bg-dim" />
           <div className="hero-bg-text hero-bg-text-1">YAKGWA</div>
-          <div className="hero-bg-text hero-bg-text-2">단백질 저당</div>
-          <div className="interaction-section section section-1" />
-          <div className="interaction-section section section-2" />
+          <div className="hero-bg-text hero-bg-text-2">K-Dessert</div>
         </div>
 
         {/* 하단 섹션 네비게이션 (BBOM 스타일) */}

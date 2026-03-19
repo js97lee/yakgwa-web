@@ -20,10 +20,17 @@ body {
   right: 0;
   z-index: 1000;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
   padding: 1.25rem 2rem;
   background: #0a0a0a;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1680px;
 }
 
 .nav-logo {
@@ -85,9 +92,14 @@ body {
   width: 100%;
 }
 
-/* Nav > 섹션1-2 > 섹션3~ 순으로 겹치도록 레이아웃 */
+/* Nav > 섹션1 > 섹션2~ 순, 네비와 겹치지 않음 */
+:root {
+  --nav-height: 72px;
+}
+
 .page-scroll-container {
   position: relative;
+  padding-top: var(--nav-height);
 }
 
 .content-sections-layer {
@@ -96,7 +108,7 @@ body {
 }
 
 .section {
-  height: 1080px;
+  height: 860px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -125,16 +137,39 @@ body {
   object-fit: contain;
 }
 
-/* 인터랙션 블록: 섹션1→2, 섹션3 뒤 레이어 */
-.interaction-block {
+/* 섹션1: 비디오 BG (섹션2 뒤 레이어, 네비 아래) */
+.hero-video-section {
   position: absolute;
-  top: 0;
+  top: var(--nav-height);
   left: 0;
   right: 0;
-  height: 2160px;
+  height: 860px;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+}
+
+/* 최상단 섹션 BG 비디오 */
+.hero-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* 블랙딤 40% */
+.hero-bg-dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* BBOM 스타일: 배경 장식 텍스트 (할톤 그라데이션) */
@@ -143,7 +178,7 @@ body {
   font-size: clamp(8rem, 25vw, 18rem);
   font-weight: 900;
   letter-spacing: -0.05em;
-  color: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.2);
   user-select: none;
   pointer-events: none;
 }
@@ -151,45 +186,15 @@ body {
 .hero-bg-text-1 {
   top: -5%;
   left: -5%;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .hero-bg-text-2 {
   bottom: 5%;
   right: -3%;
   font-size: clamp(5rem, 15vw, 11rem);
-  opacity: 0.7;
+  opacity: 0.9;
 }
-
-/* 악센트 텍스트 (The Best) - hero 섹션 내 */
-.hero-section .hero-accent-text {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 400;
-  font-style: italic;
-  color: #f5a623;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 40px rgba(245, 166, 35, 0.3);
-  margin-bottom: 1rem;
-}
-
-.interaction-section {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1080px;
-  pointer-events: none;
-}
-
-.interaction-section.section-1 {
-  top: 0;
-  background: #000000;
-}
-
-.interaction-section.section-2 {
-  top: 1080px;
-  background: #000000;
-}
-
 
 .interaction-img {
   max-width: 65%;
@@ -236,7 +241,7 @@ body {
 
 /* Footer - 마지막 섹션 (하단 네비 높이만큼 padding-bottom) */
 .footer-section {
-  min-height: 1080px;
+  min-height: 860px;
   background: #0a0a0a;
   color: #fff;
   padding: 4rem 3rem 5rem;
@@ -474,9 +479,52 @@ body {
   cursor: not-allowed;
 }
 
+/* 갤러리 섹션 - 풀 블리드, 좌우 노랑영역까지 채움 */
+.content-section-wrap:has(.gallery-section) {
+  padding: 0 !important;
+  margin: 0;
+  align-items: stretch;
+  max-width: none;
+}
+
+.gallery-section {
+  width: 100%;
+  min-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  height: 100%;
+  min-height: 860px;
+}
+
+.gallery-col {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.gallery-col img {
+  width: 100% !important;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+
 /* ---- 콘텐츠 섹션 공통 ---- */
 .content-section-wrap {
-  min-height: 1080px;
+  min-height: 860px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -485,6 +533,12 @@ body {
 
 .content-section {
   max-width: 900px;
+  width: 100%;
+}
+
+/* 갤러리: content-section max-width 무효화, 풀 블리드 */
+.content-section.gallery-section {
+  max-width: none;
   width: 100%;
 }
 
@@ -504,20 +558,20 @@ body {
   text-align: center;
 }
 
-.hero-hook1 {
-  font-size: clamp(1.15rem, 3vw, 1.45rem);
-  color: rgba(255,255,255,0.9);
-  margin-bottom: 1rem;
-  line-height: 1.7;
+.hero-subline {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
   font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
 }
 
-.hero-hook2 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
+.hero-headline {
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
   font-weight: 700;
   color: #fff;
   margin-bottom: 2rem;
-  line-height: 1.5;
+  line-height: 1.4;
   letter-spacing: -0.02em;
   text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
@@ -539,16 +593,16 @@ body {
   color: #0a0a0a;
 }
 
-/* 사전 예약하기 아래 약과 이미지 */
-.hero-yakgwa-wrap {
-  margin-top: 2rem;
+/* 섹션2 intro - 약과 인터렉션 */
+.intro-yakgwa-wrap {
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 200px;
 }
 
-.hero-yakgwa-wrap .interaction-img {
+.intro-yakgwa-wrap .interaction-img {
   max-width: 50%;
   max-height: 280px;
 }

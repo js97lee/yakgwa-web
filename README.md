@@ -1,4 +1,4 @@
-# 달빛약과 (Dalbit Yakgwa)
+# 종로약과 (Jongno Yakgwa)
 
 한국 전통 과자 약과를 소개하는 웹사이트
 
